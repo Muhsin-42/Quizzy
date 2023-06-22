@@ -1,1 +1,1 @@
-export const serverBaseUrl = 'http://localhost:8000/'
+export const serverBaseUrl = import.meta.env.VITE_SERVER_BASE_URL
