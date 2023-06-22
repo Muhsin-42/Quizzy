@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { loginUser } from '../../store/slices/userSlice'
 import { useDispatch } from "react-redux";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../store";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from '../../utils/axios'
@@ -20,7 +22,6 @@ const signUpSchema = Yup.object({
 
 export function Login() {
 
-  const dispatch = useDispatch();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -31,13 +32,18 @@ export function Login() {
           password: values.password
         }
         try {
-          const { data } = await axios.post("/api/student/login", user)
+          const { data } = await axios.post("/api/superuser/login", user)
           dispatch(loginUser(data))
           action.resetForm();
         } catch (error) {
         }
       },
     });
+
+
+
+
+  const dispatch = useDispatch();
 
 
   return (
@@ -90,7 +96,7 @@ export function Login() {
                   type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
-                  Create Account <ArrowRight className="ml-2" size={16} />
+                  Login <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
             </div>

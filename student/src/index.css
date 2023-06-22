@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    /* background-color: rgba(0, 0, 0, 0.795); */
+
+.bg-green{
+    background-color: rgb(16, 197, 16) !important;
+}
+.bg-red{
+    background-color: rgb(255, 53, 53) !important;
 }

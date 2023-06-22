@@ -89,6 +89,7 @@ const facultiesController = {
         title,
         description,
         difficulty,
+        totalQuestions,
         tags,
         author,
         questions,
@@ -101,6 +102,17 @@ const facultiesController = {
     } catch (error) {
       console.log('eee ',error);
       res.status(500).json({ error: 'Failed to create quiz' });
+    }
+  },
+
+  getFacultyQuizzes: async (req: Request, res: Response) =>{
+    try {
+      const {facultyId} = req.params;
+      const quizzes = await QuizModel.find({author: Object(facultyId)});
+      res.status(200).json(quizzes);
+    } catch (error) {
+      console.log('Error:', error);
+      res.status(500).json({ error: 'Failed to fetch quizzes' });
     }
   }
 

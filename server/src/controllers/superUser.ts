@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { Student, validate } from '../models/studentsModel';
+import { Student  } from '../models/studentsModel';
+import { SuperUser, validate } from '../models/superUsersModel';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-import { log } from 'console';
 import QuizModel from '../models/QuizModel';
 
 interface DecodedToken extends JwtPayload {
   email: string;
 }
 
-const studentsController = {
+const superUsersController = {
   verifyToken: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers.authorization;
@@ -24,32 +24,32 @@ const studentsController = {
 
       const decoded = jwt.verify(token, secretKey) as DecodedToken;
       const email = decoded.email;
-      const user = await Student.findOne({ email: email });
+      const user = await SuperUser.findOne({ email: email });
       next();
     } catch (error) {
       res.status(400).json({ status: 'error', error: 'Invalid token' });
     }
   },
 
-  studentLogin: async (req: Request, res: Response) => {
+  superUserLogin: async (req: Request, res: Response) => {
     console.log('req body',req.body );
     
     try {
-      const student = await Student.findOne({ email: req.body.email });
-      if (!student) {
+      const superUser = await SuperUser.findOne({ email: req.body.email });
+      if (!superUser) {
         res.status(401).send({ message: 'Invalid Email or Password' });
       } else {
-        const validPassword = await bcrypt.compare(req.body.password, student.password);
+        const validPassword = await bcrypt.compare(req.body.password, superUser.password);
         if (!validPassword) {
           return res.status(401).send({ message: 'Invalid Email or password' });
         }
   
         const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
-        const token = jwt.sign({ email: student.email }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ email: superUser.email }, secretKey, { expiresIn: '1h' });
   
         console.log(token);
         
-        res.status(200).json({ token, user: student });
+        res.status(200).json({ token, user: superUser });
       }
     } catch (error) {
       console.log(error);
@@ -58,21 +58,21 @@ const studentsController = {
     }
   },
 
-  studentRegister: async (req: Request, res: Response) => {
+  superUserRegister: async (req: Request, res: Response) => {
     try {
       const { error } = validate(req.body);
       console.log(error)
       if (error)
         return res.status(401).send({ message: error.details[0].message });
 
-      let user = await Student.findOne({ email: req.body.email });
-      if (user)
+      let superUser = await SuperUser.findOne({ email: req.body.email });
+      if (superUser)
         return res.status(409).send({ message: "User with given email already Exist!", emailExists: true });
       
       const salt = await bcrypt.genSalt(Number(process.env.SALT));
       const hashPassword = await bcrypt.hash(req.body.password, salt);
       
-      user = await new Student({ ...req.body, password: hashPassword }).save();
+      superUser = await new SuperUser({ ...req.body, password: hashPassword }).save();
 
       res.status(201).send({ message: "Email Sent to your account, please verify" });
     } catch (error) {
@@ -82,7 +82,6 @@ const studentsController = {
 
   getAllQuizzes: async (req: Request, res: Response) =>{
     try {
-      // Retrieve all quizzes from the database
       const quizzes = await QuizModel.find();
       res.status(200).json(quizzes);
     } catch (error) {
@@ -92,4 +91,4 @@ const studentsController = {
   }
 };
 
-export = studentsController;
+export = superUsersController;

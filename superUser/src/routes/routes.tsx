@@ -6,8 +6,8 @@ import { Login } from '../pages/signup/Login';
 import ProtectedLayout from './ProtectedLayout';
 import Home  from '../pages/home/Home';
 import { NavBar } from '../components/NavBar/NavBar';
-import { Quiz } from '../pages/Quiz/Quiz'
 import { PageNotFound } from '../components/PageNotFound';
+import StudentsPage from '../pages/students/StudentsPage';
 
 const Layout: React.FC = () => {
   return (
@@ -44,8 +44,8 @@ const routes = [
         element: <Home />,
       },
       {
-        path: '/quiz/:quizid',
-        element: <Quiz />,
+        path: '/students',
+        element: <StudentsPage />,
       }
     ],
   },

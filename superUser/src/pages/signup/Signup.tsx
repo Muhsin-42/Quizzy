@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import axios from '../../utils/axios'
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const initialValues = {
   fullname: "",
@@ -12,7 +12,7 @@ const initialValues = {
 };
 
 const signUpSchema = Yup.object({
-      fullname: Yup.string()
+    fullname: Yup.string()
       .min(3, 'Name must be at least 3 characters')
       .required('Name is required'),
     email: Yup.string()
@@ -38,13 +38,11 @@ const signUpSchema = Yup.object({
 export function SignupForm() {
 
     const navigate = useNavigate();
-
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signUpSchema,
       onSubmit: async (values, action) => {
-          
           const user = {
               fullname: values.fullname,
               email: values.email,
@@ -52,8 +50,8 @@ export function SignupForm() {
           }
   
           try{
-              await axios.post("/api/faculty/register",user)
-              navigate('/login')
+              await axios.post("/api/superuser/register",user)
+              navigate('/login');
               action.resetForm();
           }catch(error){
           }
@@ -63,7 +61,7 @@ export function SignupForm() {
 
     return (
         <section>
-          <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
+          <div className="flex items-center  justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
             <div className="shadow-2xl py-10 lg:px-10 sm:px-3 px-3  xl:w-6/12 md:w-7/12 sm:w-11/12 w-11/12 rounded-2xl">
               <h2 className="text-center text-2xl font-bold leading-tight text-black">
                 Sign up to create account

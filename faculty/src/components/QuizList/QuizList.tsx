@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from '../../utils/axios'
 import { setQuizzes } from '../../store/slices/userSlice';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 interface QuizListProps {
     difficulty: string
@@ -12,11 +13,12 @@ interface QuizListProps {
 
 const QuizList: FC<QuizListProps> = ({ difficulty }) => {
 
+  const faculty = useSelector(state=>state?.user);  
   const [quizQuestions,setQuizQuestions] = useState([]);
   const dispatch = useDispatch();
 
   const getAllQuizes = async () =>{
-    let res = await axios.get('api/student/quizzes');
+    let res = await axios.get(`api/faculty/quizzes/${faculty?._id}`);
     console.log('res ',res.data);
     dispatch(setQuizzes(res.data));
     setQuizQuestions(res.data);

@@ -9,7 +9,7 @@ export const NavBar = () => {
             <nav id="navbar" className="navbarM">
                 <div className="left-nav">
                     <MenuBar />
-                    <a data-scroll="home" href="#home" className="active mx-10 text-3xl truncate"> Quizzy </a>
+                    <Link data-scroll="home" to="/" className="active mx-10 text-3xl truncate"> Quizzy </Link>
                 </div>
                 <div className="right-nav">
                     <Link to={'/addquiz'}>

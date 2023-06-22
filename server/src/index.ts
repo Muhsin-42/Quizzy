@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import connectDB from './utils/connection';
 import studentRoutes from './routes/students';
 import facultyRoutes from  './routes/faculties'
+import superUserRoutes from './routes/superusers';
 
 const app = express();
 dotenv.config();
@@ -19,13 +20,14 @@ app.use(helmet());
 app.use(morgan('common'));
 
 app.use(cors({
-  // origin: [ 'http://localhost:5173','http://127.0.0.1:3000','http://127.0.0.1:4000'],
-  origin:'*'
+  origin: [ 'http://localhost:5173','http://127.0.0.1:3000','http://127.0.0.1:4000']
 }));
 
 // routes
 app.use('/api/student', studentRoutes);
 app.use('/api/faculty', facultyRoutes);
+app.use('/api/superuser', superUserRoutes);
+
 
 const server = app.listen(process.env.PORT, () => {
   console.log(`server is ready at ${process.env.PORT}`);

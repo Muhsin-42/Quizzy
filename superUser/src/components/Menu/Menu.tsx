@@ -24,8 +24,9 @@ function MenuBar() {
       <div className="menu menu-toggle">
         <div className='nav'>
           <Link to="/" onClick={toggleMenu}>Home</Link>
-          <Link to="#profile" style={{animationDelay: '0.3s'}} onClick={toggleMenu}>Profile</Link>
-          <Link to="#contactus" style={{animationDelay: '0.5s'}} onClick={toggleMenu}>Contact Us</Link>
+          <Link to="/students" style={{animationDelay: '0.5s'}} onClick={toggleMenu}>Students</Link>
+          <Link to="/faculties" style={{animationDelay: '0.5s'}} onClick={toggleMenu}>Faculties</Link>
+          <Link to="/quizzes" style={{animationDelay: '0.5s'}} onClick={toggleMenu}>Quizzes</Link>
           <Link to="/login" style={{animationDelay: '0.5s'}} onClick={handleLogout}>Logout</Link>
         </div>
       </div>

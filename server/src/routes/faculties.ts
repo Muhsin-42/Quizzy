@@ -9,6 +9,7 @@ router.post('/login', facultiesController.facultyLogin);
 router.post('/register', facultiesController.facultyRegister);
 
 router.post('/quiz/:facultyId',facultiesController.addQuiz)
+router.get('/quizzes/:facultyId',facultiesController.getFacultyQuizzes)
 
 
 export default router;

@@ -16,6 +16,10 @@ const QuizSchema: Schema<IQuiz> = new Schema<IQuiz>(
       type: String,
       required: true,
     },
+    totalQuestions:{
+      type:Number,
+      required:true
+    },
     tags: {
       type: [String],
       required: false,
