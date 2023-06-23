@@ -58,6 +58,15 @@ const studentsController = {
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch quizzes' });
     }
+  },
+
+  getAllStudents: async (req: Request, res: Response) =>{
+    try {
+      const students = await Student.find();
+      res.status(200).json(students);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch students' });
+    }
   }
 };
 

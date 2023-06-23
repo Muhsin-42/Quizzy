@@ -8,5 +8,6 @@ router.post('/login', facultiesController.facultyLogin);
 router.post('/register', facultiesController.facultyRegister);
 router.post('/quiz/:facultyId',verifyToken,facultiesController.addQuiz)
 router.get('/quizzes/:facultyId',verifyToken,facultiesController.getFacultyQuizzes)
+router.get('/faculties',verifyToken,facultiesController.getAllFaculties)
 
 export default router;

@@ -7,5 +7,6 @@ const router: Router = express.Router();
 router.post('/login', studentsController.studentLogin);
 router.post('/register', studentsController.studentRegister);
 router.get('/quizzes', verifyToken ,studentsController.getAllQuizzes)
+router.get('/students', verifyToken ,studentsController.getAllStudents)
 
 export default router;

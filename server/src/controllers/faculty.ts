@@ -81,8 +81,16 @@ const facultiesController = {
       console.log('Error:', error);
       res.status(500).json({ error: 'Failed to fetch quizzes' });
     }
-  }
+  },
 
+  getAllFaculties: async (req: Request, res: Response) =>{
+    try {
+      const faculties = await Faculty.find();
+      res.status(200).json(faculties);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch students' });
+    }
+  }
 };
 
 export = facultiesController;

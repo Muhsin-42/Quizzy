@@ -4,12 +4,16 @@ export interface UserState {
     user: undefined | any;
     token: undefined | any;
     quizzes: undefined | any;
+    students: undefined | any;
+    faculties: undefined | any;
 }
 
 const initialState: UserState = {
     user: undefined,
     token: undefined,
-    quizzes:undefined
+    quizzes:undefined,
+    students: undefined,
+    faculties: undefined
 }
 
 const userSlice = createSlice({
@@ -26,9 +30,15 @@ const userSlice = createSlice({
         },
         setQuizzes(state, action){
             state.quizzes = action.payload;
+        },
+        setStudents(state, action){
+            state.students = action.payload;
+        },
+        setFaculties(state, action){
+            state.faculties = action.payload;
         }
     }
 })
 
-export const { loginUser, logoutUser, setQuizzes } = userSlice.actions;
+export const { loginUser, logoutUser, setQuizzes, setFaculties, setStudents } = userSlice.actions;
 export default userSlice.reducer;
