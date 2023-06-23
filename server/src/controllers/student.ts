@@ -1,39 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { Student, validate } from '../models/studentsModel';
-import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-import { log } from 'console';
+import jwt, {  Secret } from 'jsonwebtoken';
 import QuizModel from '../models/QuizModel';
 
-interface DecodedToken extends JwtPayload {
-  email: string;
-}
+
 
 const studentsController = {
-  verifyToken: async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const authHeader = req.headers.authorization;
-      const token = authHeader ? authHeader.split(' ')[1].trim() : undefined;
 
-      if (!token) {
-        return res.status(400).json({ status: 'error', error: 'Missing token' });
-      }
-
-      const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
-
-      const decoded = jwt.verify(token, secretKey) as DecodedToken;
-      const email = decoded.email;
-      const user = await Student.findOne({ email: email });
-      next();
-    } catch (error) {
-      res.status(400).json({ status: 'error', error: 'Invalid token' });
-    }
-  },
 
   studentLogin: async (req: Request, res: Response) => {
-    console.log('req body',req.body );
-    
     try {
       const student = await Student.findOne({ email: req.body.email });
       if (!student) {
@@ -47,13 +23,9 @@ const studentsController = {
         const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
         const token = jwt.sign({ email: student.email }, secretKey, { expiresIn: '1h' });
   
-        console.log(token);
-        
         res.status(200).json({ token, user: student });
       }
-    } catch (error) {
-      console.log(error);
-      
+    } catch (error) {    
       res.status(500).send({ message: 'Internal Server Error' });
     }
   },
@@ -61,7 +33,6 @@ const studentsController = {
   studentRegister: async (req: Request, res: Response) => {
     try {
       const { error } = validate(req.body);
-      console.log(error)
       if (error)
         return res.status(401).send({ message: error.details[0].message });
 
@@ -82,11 +53,9 @@ const studentsController = {
 
   getAllQuizzes: async (req: Request, res: Response) =>{
     try {
-      // Retrieve all quizzes from the database
       const quizzes = await QuizModel.find();
       res.status(200).json(quizzes);
     } catch (error) {
-      console.log('Error:', error);
       res.status(500).json({ error: 'Failed to fetch quizzes' });
     }
   }

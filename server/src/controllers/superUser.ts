@@ -1,39 +1,14 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { Student  } from '../models/studentsModel';
 import { SuperUser, validate } from '../models/superUsersModel';
-import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-import QuizModel from '../models/QuizModel';
+import jwt, {  Secret } from 'jsonwebtoken';
+import { Faculty } from '../models/facultiesModel';
 
-interface DecodedToken extends JwtPayload {
-  email: string;
-}
 
 const superUsersController = {
-  verifyToken: async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const authHeader = req.headers.authorization;
-      const token = authHeader ? authHeader.split(' ')[1].trim() : undefined;
-
-      if (!token) {
-        return res.status(400).json({ status: 'error', error: 'Missing token' });
-      }
-
-      const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
-
-      const decoded = jwt.verify(token, secretKey) as DecodedToken;
-      const email = decoded.email;
-      const user = await SuperUser.findOne({ email: email });
-      next();
-    } catch (error) {
-      res.status(400).json({ status: 'error', error: 'Invalid token' });
-    }
-  },
 
   superUserLogin: async (req: Request, res: Response) => {
-    console.log('req body',req.body );
-    
     try {
       const superUser = await SuperUser.findOne({ email: req.body.email });
       if (!superUser) {
@@ -47,12 +22,9 @@ const superUsersController = {
         const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
         const token = jwt.sign({ email: superUser.email }, secretKey, { expiresIn: '1h' });
   
-        console.log(token);
-        
         res.status(200).json({ token, user: superUser });
       }
     } catch (error) {
-      console.log(error);
       
       res.status(500).send({ message: 'Internal Server Error' });
     }
@@ -61,7 +33,6 @@ const superUsersController = {
   superUserRegister: async (req: Request, res: Response) => {
     try {
       const { error } = validate(req.body);
-      console.log(error)
       if (error)
         return res.status(401).send({ message: error.details[0].message });
 
@@ -80,12 +51,20 @@ const superUsersController = {
     }
   },
 
-  getAllQuizzes: async (req: Request, res: Response) =>{
+  getAllStudents: async (req: Request, res: Response) =>{
     try {
-      const quizzes = await QuizModel.find();
-      res.status(200).json(quizzes);
+      const students = await Student.find();
+      res.status(200).json(students);
     } catch (error) {
-      console.log('Error:', error);
+      res.status(500).json({ error: 'Failed to fetch quizzes' });
+    }
+  },
+
+  getAllFaculties: async (req: Request, res: Response) =>{
+    try {
+      const faculties = await Faculty.find();
+      res.status(200).json(faculties);
+    } catch (error) {
       res.status(500).json({ error: 'Failed to fetch quizzes' });
     }
   }

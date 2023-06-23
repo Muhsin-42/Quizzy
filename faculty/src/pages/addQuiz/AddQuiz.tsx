@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Autocomplete from '@mui/material/Autocomplete';
 import axios from '../../utils/axios'
 import { useSelector } from "react-redux";
+import { logoutUser } from "../../store/slices/userSlice";
+import { useDispatch } from "react-redux";
 const AddQuiz: FC = () => {
 
     const [title, setTitle] = useState('');
@@ -16,8 +16,10 @@ const AddQuiz: FC = () => {
     const [questions, setQuestions] = useState([]);
     const [totalQuestions, setTotalQuestion] = useState(0);
     const [tags, setTags] = useState([]);
-    const faculty = useSelector(state=>state.user);
-    console.log('fac ',faculty)
+    const faculty = useSelector(state=>state?.user);
+    const token = useSelector(state=>state?.token);
+    const dispatch = useDispatch();
+
 
     const handleQuestionChange = (index, field, value) => {
         setQuestions((prevQuestions) => {
@@ -48,22 +50,27 @@ const AddQuiz: FC = () => {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        console.log('we', questions);
-        console.log('tags ', tags);
-        let quizSet = {
-            title,
-            description,
-            difficulty,
-            totalQuestions,
-            tags,
-            questions
-        }
-        
-        let res = await axios.post(`api/faculty/quiz/${faculty?._id}`,quizSet)
-        console.log(res);
-        
+        try {
+            event.preventDefault();
 
+            let quizSet = {
+                title,
+                description,
+                difficulty,
+                totalQuestions,
+                tags,
+                questions
+            }
+            
+            let res = await axios.post(`api/faculty/quiz/${faculty?._id}`,quizSet,{
+                headers:{
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${token}`
+                }
+            })
+        } catch (error) {
+            if(error?.response?.status===401) dispatch(logoutUser())
+        }        
     };
 
 

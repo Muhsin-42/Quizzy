@@ -2,8 +2,9 @@ import {FC, useState} from 'react'
 import { SingleQuizCard } from "./SingleQuizCard";
 import { useEffect } from "react";
 import axios from '../../utils/axios'
-import { setQuizzes } from '../../store/slices/userSlice';
+import { logoutUser, setQuizzes } from '../../store/slices/userSlice';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 interface QuizListProps {
     difficulty: string
@@ -13,13 +14,24 @@ interface QuizListProps {
 const QuizList: FC<QuizListProps> = ({ difficulty }) => {
 
   const [quizQuestions,setQuizQuestions] = useState([]);
+  const token = useSelector(state=>state?.token);
+  console.log(token)
   const dispatch = useDispatch();
 
   const getAllQuizes = async () =>{
-    let res = await axios.get('api/student/quizzes');
-    console.log('res ',res.data);
-    dispatch(setQuizzes(res.data));
-    setQuizQuestions(res.data);
+    try { 
+        let res = await axios.get('api/student/quizzes',{
+          headers:{
+            "Content-Type": 'application/json',
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        console.log('res ',res.data);
+        dispatch(setQuizzes(res.data));
+        setQuizQuestions(res.data);
+    } catch (error) {
+        if(error?.response?.status===401) dispatch(logoutUser())
+    }
   }
 
   useEffect(()=>{

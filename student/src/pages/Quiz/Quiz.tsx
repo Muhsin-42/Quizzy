@@ -8,6 +8,7 @@ interface IQuestions {
     options: string[];
     answer: number;
 }
+
 interface IQuizzes {
     _id: string;
     difficulty: string;
