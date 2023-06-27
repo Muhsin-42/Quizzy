@@ -13,10 +13,10 @@ interface QuizListProps {
 
 const QuizList: FC<QuizListProps> = ({ difficulty }) => {
 
-  const faculty = useSelector(state=>state?.user);  
+  const faculty = useSelector((state:any)=>state?.user);  
   const [quizQuestions,setQuizQuestions] = useState([]);
   const dispatch = useDispatch();
-  const token = useSelector(state=>state?.token);
+  const token = useSelector((state:any)=>state?.token);
 
 
 
@@ -28,12 +28,9 @@ const QuizList: FC<QuizListProps> = ({ difficulty }) => {
           "Authorization": `Bearer ${token}`
         }
       });
-      console.log('res ',res.data);
       dispatch(setQuizzes(res.data));
       setQuizQuestions(res.data); 
-    } catch (error) {
-      console.log('ee', error);
-      
+    } catch (error:any) {
       if(error?.response?.status===401) dispatch(logoutUser())
     }
   }
@@ -45,7 +42,7 @@ const QuizList: FC<QuizListProps> = ({ difficulty }) => {
     return (
       <>
         <div className="flex mb-20 gap-5 justify-around flex-wrap lg:w-9/12 md:w-10/12 sm:w-11/12 w-11/12 mx-auto">
-          {quizQuestions.map((question, index) =>
+          {quizQuestions.map((question:any, index) =>
             question?.difficulty === difficulty || difficulty==='all' ? (
               <SingleQuizCard key={index} question={question} />
             ) : null

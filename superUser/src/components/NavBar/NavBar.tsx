@@ -2,7 +2,6 @@ import './navBar.scss';
 import './main.js';
 import MenuBar from '../Menu/Menu.tsx';
 import { Link } from 'react-router-dom';
-import { RootState } from '../../store';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../store/slices/userSlice';
 export const NavBar = () => {

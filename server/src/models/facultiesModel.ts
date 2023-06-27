@@ -33,10 +33,6 @@ const FacultySchema: Schema<IFaculty> = new Schema<IFaculty>(
       required: true,
       min: 3,
     },
-    profilePicture: {
-      type: String,
-      default: '',
-    },
     isFaculty:{
         type:Boolean,
         default: true

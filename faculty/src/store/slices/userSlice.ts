@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
-    user: undefined | any;
-    token: undefined | any;
-    quizzes: undefined | any;
+    user: any;
+    token: any;
+    quizzes: any;
 }
 
 const initialState: UserState = {
@@ -20,7 +20,7 @@ const userSlice = createSlice({
             state.user = action.payload?.user;
             state.token = action.payload?.token;
         },
-        logoutUser(state, action: PayloadAction<undefined>) {
+        logoutUser(state) {
             state.user = undefined;
             state.token = undefined;
         },

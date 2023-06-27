@@ -7,7 +7,8 @@ import ProtectedLayout from './ProtectedLayout';
 import Home  from '../pages/home/Home';
 import { NavBar } from '../components/NavBar/NavBar';
 import { PageNotFound } from '../components/PageNotFound';
-import StudentsPage from '../pages/students/StudentsPage';
+import CommonUserList from '../pages/CommonUserList/CommonUserList';
+import QuizzesList from '../pages/QuizList/QuizList';
 
 const Layout: React.FC = () => {
   return (
@@ -45,7 +46,15 @@ const routes = [
       },
       {
         path: '/students',
-        element: <StudentsPage />,
+        element: <CommonUserList />,
+      },
+      {
+        path: '/faculties',
+        element: <CommonUserList />,
+      },
+      {
+        path: '/quizzes',
+        element: <QuizzesList />,
       }
     ],
   },

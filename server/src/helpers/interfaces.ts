@@ -27,3 +27,9 @@ export interface IUser extends Document {
   isActive: boolean;
   generateAuthToken: () => string;
 }
+
+export interface IStudent {
+  _id: string;
+  fullname:string;
+  email: string
+}

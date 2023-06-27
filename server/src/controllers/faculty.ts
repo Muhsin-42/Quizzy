@@ -51,11 +51,12 @@ const facultiesController = {
     try {
       const { title, description, difficulty, tags,  questions, totalQuestions } = req.body;
       const author = req.params.facultyId;
-
+      
       // Create a new quiz document
       const newQuiz: IQuiz = new QuizModel({
         title,
         difficulty,
+        description,
         totalQuestions,
         tags,
         author,
@@ -67,7 +68,6 @@ const facultiesController = {
   
       res.status(201).json(savedQuiz);
     } catch (error) {
-      console.log('eee ',error);
       res.status(500).json({ error: 'Failed to create quiz' });
     }
   },
@@ -78,7 +78,6 @@ const facultiesController = {
       const quizzes = await QuizModel.find({author: Object(facultyId)});
       res.status(200).json(quizzes);
     } catch (error) {
-      console.log('Error:', error);
       res.status(500).json({ error: 'Failed to fetch quizzes' });
     }
   },

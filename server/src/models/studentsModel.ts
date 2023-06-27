@@ -32,10 +32,6 @@ const StudentSchema: Schema<IStudent> = new Schema<IStudent>(
       required: true,
       min: 3,
     },
-    profilePicture: {
-      type: String,
-      default: '',
-    },
     isStudent:{
         type:Boolean,
         default: true

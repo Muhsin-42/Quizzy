@@ -3,8 +3,7 @@ import { Student, validate } from '../models/studentsModel';
 import bcrypt from 'bcrypt';
 import jwt, {  Secret } from 'jsonwebtoken';
 import QuizModel from '../models/QuizModel';
-
-
+import { IStudent } from '../helpers/interfaces';
 
 const studentsController = {
 
@@ -22,8 +21,13 @@ const studentsController = {
   
         const secretKey: Secret = process.env.JWT_SECRET_KEY || '';
         const token = jwt.sign({ email: student.email }, secretKey, { expiresIn: '1h' });
-  
-        res.status(200).json({ token, user: student });
+        
+        const studentDetails: IStudent = {
+          _id: student._id,
+          fullname: student.fullname,
+          email: student.email
+        }
+        res.status(200).json({ token, user: studentDetails });
       }
     } catch (error) {    
       res.status(500).send({ message: 'Internal Server Error' });

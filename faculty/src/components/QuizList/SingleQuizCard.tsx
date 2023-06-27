@@ -1,9 +1,8 @@
 import { FC } from 'react'
-import { ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 
-export const SingleQuizCard: FC = ({ question }) => {
+export const SingleQuizCard: FC<any> = ({ question }) => {
   return (
     <>
       <div className="w-[300px] rounded-2xl border shadow-2xl cursor-pointer tilt-effects  hover:scale-105 delay-200 ease-in-out">

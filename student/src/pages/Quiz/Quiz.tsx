@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 
 interface IQuestions {
     question: string;
@@ -21,7 +20,7 @@ interface IQuizzes {
 
 export const Quiz: FC = () => {
     const { quizid } = useParams();
-    const quizQuestions: IQuizzes[] = useSelector((state: RootState) => state.quizzes);
+    const quizQuestions: IQuizzes[] = useSelector((state: any) => state.quizzes);
     const questionSet: IQuizzes | undefined = quizQuestions.find((document: IQuizzes) => document._id === quizid);
 
     const questions = questionSet?.questions;
@@ -34,18 +33,17 @@ export const Quiz: FC = () => {
     const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
     const [showResult, setShowResult] = useState(false);
 
-    const selectOption = (option: string, index: number) => {
+    const selectOption = ( index: number) => {
         setSelectedButton(index);
-        setCorrectAnswer(currentQuestion.answer - 1);
+        currentQuestion && setCorrectAnswer(currentQuestion?.answer - 1);
 
-        if (index === currentQuestion.answer - 1) setScore((current) => current + 1)
+        if (index === (currentQuestion && currentQuestion.answer - 1)) setScore((current) => current + 1)
 
         setTimeout(() => {
-            if (currentIndex < questions.length - 1) {
+            if (questions && (currentIndex < questions?.length - 1)) {
                 setCurrentIndex(currentIndex + 1);
                 setSelectedButton(null);
                 setCorrectAnswer(null);
-                console.log(score);
             } else {
                 setShowResult(true);
             }
@@ -69,7 +67,7 @@ export const Quiz: FC = () => {
                                     <div className="options flex flex-col">
                                         {currentQuestion?.options.map((option: string, index: number) => (
 
-                                            <button key={index} onClick={() => selectOption(option, index)}
+                                            <button key={index} onClick={() => selectOption(index)}
                                                 className={`rounded-md py-3 px-2 m-2 mx-auto lg:w-1/2 md:w-7/12 sm:w-11/12 w-11/12  font-bold hover:scale-105 delay-300 
                                                 ${correctAnswer === index ? 'bg-green text-white' : 'bg-white'}
                                                 ${selectedButton === index && selectedButton !== correctAnswer ? 'bg-red text-white' : 'bg-white'} `}>
@@ -85,7 +83,7 @@ export const Quiz: FC = () => {
                                 <>
                                     <h2 className="text-center text-white text-3xl underline mt-10">Result</h2>
                                     <h3 className="text-center text-white text-3xl">Score : {score} </h3>
-                                    <h3 className="text-center text-white text-3xl">Outof : {questions.length} </h3>
+                                    <h3 className="text-center text-white text-3xl">Outof : {questions?.length} </h3>
 
                                     <Link to={'/'} className="mt-3 w-full block  underline w text-center text-xl">Go Home</Link>
                                 </>

@@ -3,7 +3,7 @@
   import './index.css'
   import { Provider } from 'react-redux'
   import userSlice  from './store/slices/userSlice.ts'
-  import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+  import { configureStore } from '@reduxjs/toolkit';
   
   import {
     persistStore,

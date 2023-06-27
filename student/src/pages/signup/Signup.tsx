@@ -1,7 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import axios from '../../utils/axios'
