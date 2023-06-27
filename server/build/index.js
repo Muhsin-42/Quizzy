@@ -21,7 +21,7 @@ app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
 app.use((0, morgan_1.default)('common'));
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:3000', 'http://127.0.0.1:4000']
+    origin: ['https://quizzy-ecera.netlify.app', 'https://quizzy-superuser.netlify.app', 'https://quizzy-faculty.netlify.app']
 }));
 // routes
 app.use('/api/student', students_1.default);
