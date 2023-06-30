@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { logoutUser } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { TopKeywords } from "../../utils/constants";
 
 interface QuizQuestion {
     question: string;
@@ -118,13 +119,15 @@ const AddQuiz: FC = () => {
                         <MenuItem value={'hard'}>Hard</MenuItem>
                     </Select>
 
-                    <Autocomplete multiple limitTags={2} id="multiple-limit-tags" options={tags}
+                    <Autocomplete multiple limitTags={2} id="multiple-limit-tags" options={TopKeywords}
+
                         getOptionLabel={(option) => option} value={tags}
                         onChange={(_event, newValue) => { setTags(newValue) }}
                         renderInput={(params) => (
                             <TextField  {...params} label="Tags" placeholder="Enter Tags" onKeyDown={handleKeyDown} />
                         )}
                     />
+                     
                     <TextField id="outlined-number" label="Total Questions" value={totalQuestions} onChange={(e) => setTotalQuestion(parseInt(e.target.value))} type="number" InputLabelProps={{ shrink: true, }} inputProps={{
                         min: 1,
                         max: 15,
@@ -172,3 +175,7 @@ const AddQuiz: FC = () => {
 
 
 export default AddQuiz;
+
+
+
+// const topKeyWords = ["Typescript","Javascript","Typescript"];

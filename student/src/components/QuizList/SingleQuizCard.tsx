@@ -2,15 +2,29 @@ import  { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 export const SingleQuizCard: FC<any> = ({ question }) => {
+  console.log('quest ',question);
+  
   return (
     <div className="w-[300px] rounded-2xl border shadow-2xl cursor-pointer tilt-effects hover:scale-105 delay-200 ease-in-out">
       <div className="p-10">
         <h1 className="inline-flex items-center text-lg font-semibold">{question?.title}</h1>
         <p className="mt-3 text-sm text-gray-600">{question?.description}</p>
         <div className="mt-4">
-          <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-1xl font-semibold text-gray-900">
-            #{question?.difficulty.toUpperCase()}
+          <span className="mb-2 mr-2 inline-block rounded-full bg-gray-300 px-3 py-1 text-1xl font-semibold text-gray-900">
+            {question?.difficulty.toUpperCase()}
           </span>
+          <div>
+              {
+                question?.tags.map((tag: any)=>{
+                  return (
+                    <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm font-semibold text-gray-900">
+                      #{tag}
+                    </span>
+                  )
+                })
+              }
+
+          </div>
         </div>
         <Link to={`/quiz/${question?._id}`}>
           <button
